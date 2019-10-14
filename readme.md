@@ -1,6 +1,6 @@
 # Laravel Chat
 
-Add chat to your Laravel app
+Add chat to your Laravel app. WIP – do not use.
 
 ## Installation
 

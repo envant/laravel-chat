@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,6 +55,20 @@ class Conversation extends Model
                 ? static::TYPE_PUBLIC
                 : static::TYPE_PRIVATE;
         });
+
+        // Order by latest message
+        static::addGlobalScope('order', function (Builder $query) {
+            /*
+            $query->orderBy(function ($query) {
+                $query->select('created_at')
+                    ->from(Message::getModel()->getTable())
+                    ->whereColumn('conversation_id', self::getModel()->getTable() . '.id')
+                    ->latest()
+                    ->limit(1)
+                    ->get();
+            });
+            */
+        });
     }
 
     /*
@@ -95,6 +110,16 @@ class Conversation extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(config('chat.message_model'));
+    }
+
+    /**
+     * Last message
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function lastMessage(): HasOne
+    {
+        return $this->hasOne(config('chat.message_model'))->latest();
     }
 
     /**

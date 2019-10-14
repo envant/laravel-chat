@@ -28,6 +28,7 @@ class ConversationController extends Controller
     public function index()
     {
         $conversations = $this->user->conversations()
+            ->with('lastMessage.user')
             ->withCount('unreadMessages')
             ->paginate();
 
