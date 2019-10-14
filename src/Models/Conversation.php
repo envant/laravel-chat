@@ -2,6 +2,7 @@
 
 namespace Envant\Chat\Models;
 
+use Ankurk91\Eloquent\BelongsToOne;
 use Envant\Chat\Chat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Conversation extends Model
 {
+    use BelongsToOne;
+
     /** @var array */
     protected $fillable = [
         'name',
@@ -100,6 +103,21 @@ class Conversation extends Model
             'conversation_id',
             'user_id'
         );
+    }
+
+    /**
+     * Companion of private conversation
+     *
+     * @return \Ankurk91\Eloquent\BelongsToOne
+     */
+    public function companion(): BelongsToOne
+    {
+        return $this->belongsToOne(
+            User::class,
+            config('chat.participants_table'),
+            'conversation_id',
+            'user_id',
+        )->where('id', '<>', Auth::id());
     }
 
     /**

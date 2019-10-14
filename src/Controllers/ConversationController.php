@@ -28,7 +28,7 @@ class ConversationController extends Controller
     public function index()
     {
         $conversations = $this->user->conversations()
-            ->with('lastMessage.user')
+            ->with('lastMessage.user', 'companion')
             ->withCount('unreadMessages')
             ->paginate();
 
@@ -37,7 +37,7 @@ class ConversationController extends Controller
 
     public function show(Conversation $conversation)
     {
-        $conversation->load('participants');
+        $conversation->load('participants', 'companion');
         $conversation->loadCount('unreadMessages');
 
         return new ConversationResource($conversation);
