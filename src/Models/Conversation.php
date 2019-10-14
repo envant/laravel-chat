@@ -113,7 +113,7 @@ class Conversation extends Model
     public function companion(): BelongsToOne
     {
         return $this->belongsToOne(
-            User::class,
+            Chat::getAuthModel(),
             config('chat.participants_table'),
             'conversation_id',
             'user_id',
