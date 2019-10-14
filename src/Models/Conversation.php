@@ -2,7 +2,7 @@
 
 namespace Envant\Chat\Models;
 
-use Ankurk91\Eloquent\Relations\BelongsToOne;
+use Ankurk91\Eloquent\BelongsToOne;
 use Envant\Chat\Chat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -108,9 +108,9 @@ class Conversation extends Model
     /**
      * Companion of private conversation
      *
-     * @return \Ankurk91\Eloquent\Relations\BelongsToOne
+     * @return \Ankurk91\Eloquent\BelongsToOne
      */
-    public function companion(): BelongsToOne
+    public function companion(): \Ankurk91\Eloquent\Relations\BelongsToOne
     {
         return $this->belongsToOne(
             Chat::getAuthModel(),
