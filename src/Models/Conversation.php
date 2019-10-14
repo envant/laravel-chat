@@ -51,7 +51,7 @@ class Conversation extends Model
 
         // Set conversation type depending on related model type
         static::creating(function ($model) {
-            $model->type = $model->model_type
+            $model->type = $model->model_type != Chat::getAuthModelName()
                 ? static::TYPE_PUBLIC
                 : static::TYPE_PRIVATE;
         });
